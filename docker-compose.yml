@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+
+    nginx:
+        container_name: "${APP_TITLE}"
+        ports:
+            - "${APP_PORT}:80"
+        build: ./docker/nginx
+        links:
+            - php
+        volumes:
+            - ./:/usr/share/nginx/www
+
+    php:
+        container_name: "${APP_NAME}"
+        hostname: blog
+        build: ./docker/php
+        volumes:
+            - ./:/usr/share/nginx/www
+
+networks:
+    default:
+        external: true
+        name: ${APP_DOCKER_NETWORK}
